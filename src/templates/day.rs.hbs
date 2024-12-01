@@ -1,0 +1,28 @@
+fn part_one(input: String) -> u32 {
+    // Write here code to solve part1 from input
+    10
+}
+
+fn part_two(input: String) -> u32 {
+    // Write here code to solve part 2 from input
+    11
+}
+
+
+#[cfg(test)]
+mod tests {
+    use std::io;
+    use super::*;
+
+    #[test]
+    fn test_part_one(){
+        let input = crate::load_day_input({{ day }}).unwrap();
+        assert_eq!(part_one(input), 11)
+    }
+
+    #[test]
+    fn test_part_two(){
+        let input = crate::load_day_input({{ day }}).unwrap();
+        assert_eq!(part_two(input), 11)
+    }
+}

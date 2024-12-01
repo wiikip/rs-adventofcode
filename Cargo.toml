@@ -1,0 +1,10 @@
+[package]
+name = "rs-adventofcode"
+version = "0.1.0"
+edition = "2021"
+default-run = "main"
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
+reqwest = { version = "0.12", features = ["blocking"] }
+handlebars = { version = "3", features = ["dir_source"] }
