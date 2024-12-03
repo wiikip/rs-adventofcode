@@ -9,6 +9,7 @@ use handlebars::Handlebars;
 
 
 mod solutions;
+mod utils;
 
 pub fn get_user_input(day: u8, session_id: String) -> Result<String, reqwest::Error> {
     let client = reqwest::blocking::Client::new();
