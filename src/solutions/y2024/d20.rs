@@ -203,13 +203,13 @@ mod tests {
 
     #[test]
     fn test_part_one(){
-        let input = crate::load_day_input(20).unwrap();
+        let input = crate::load_day_input(2024, 20).unwrap();
         assert_eq!(part_one(input).unwrap(), 1422)
     }
 
     #[test]
     fn test_part_two(){
-        let input = crate::load_day_input(20).unwrap();
+        let input = crate::load_day_input(2024, 20).unwrap();
         assert_eq!(part_two(input).unwrap(), 1009299)
     }
 }

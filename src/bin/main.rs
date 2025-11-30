@@ -8,8 +8,7 @@ fn main() {
     let args = Cli::parse();
 
     println!("Args {:?}", args.day);
-    bootstrap_day(args.day, args.session_id);
-
+    bootstrap_day(args.year,  args.day, args.session_id);
 }
 
 #[derive(Parser)]
@@ -17,6 +16,8 @@ struct Cli {
     #[arg(short = 'd', long = "day")]
     day: u8,
     #[arg(short = 's')]
-    session_id: String
+    session_id: String,
+    #[arg(short = 'y', long = "year")]
+    year: u16
 }
 

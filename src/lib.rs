@@ -11,31 +11,27 @@ use handlebars::Handlebars;
 pub mod solutions;
 mod utils;
 
-pub fn get_user_input(day: u8, session_id: String) -> Result<String, reqwest::Error> {
+pub fn get_user_input(year: u16, day: u8, session_id: String) -> Result<String, reqwest::Error> {
     let client = reqwest::blocking::Client::new();
 
-    let resp = client.get(format!("https://adventofcode.com/2024/day/{}/input", day))
+    let resp = client.get(format!("https://adventofcode.com/{}/day/{}/input", year, day))
         .header(reqwest::header::COOKIE, format!("session={}", session_id))
         .send()?;
     resp.text()
 }
 
-pub fn bootstrap_day(day: u8, session_id: String) -> Result<(), Box<dyn Error>> {
-    append_day_mod(day)?;
-    let input_folder = format!("src/solutions/d{:02}", day);
+pub fn bootstrap_day(year: u16, day: u8, session_id: String) -> Result<(), Box<dyn Error>> {
+    append_day_mod(year, day)?;
+    let input_folder = format!("src/solutions/y{}/d{:02}", year, day);
     fs::create_dir(&input_folder)?;
-    let user_input = get_user_input(day, session_id)?;
+    let user_input = get_user_input(year, day, session_id)?;
     fs::write(format!("{input_folder}/input.txt"), user_input)?;
-    template_day(day)?;
+    template_day(year, day)?;
     Ok(())
 }
 
-fn create_input_folder(day: u8) -> io::Result<()> {
-    fs::create_dir(format!("src/solutions/d{:02}", day))
-}
-
-fn append_day_mod(day: u8) -> io::Result<()> {
-    let file_content = fs::read_to_string("src/solutions.rs")?;
+fn append_day_mod(year: u16, day: u8) -> io::Result<()> {
+    let file_content = fs::read_to_string(format!("src/solutions/y{}/mod.rs", year))?;
     let lines = file_content.split("\n");
     let mut lines_vec: Vec<&str> = lines.collect();
     let new_mod = format!("mod d{:02};", day);
@@ -43,15 +39,15 @@ fn append_day_mod(day: u8) -> io::Result<()> {
         lines_vec.push(new_mod.as_str());
     }
     lines_vec.sort();
-    fs::write("src/solutions.rs", lines_vec.join("\n"))
+    fs::write(format!("src/solutions/y{}/mod.rs", year), lines_vec.join("\n"))
 }
 
-pub fn load_day_input(day: u8) -> io::Result<String> {
-    println!("Reading file src/solutions/d{:02}/input.txt", day);
-    fs::read_to_string(format!("src/solutions/d{:02}/input.txt", day))
+pub fn load_day_input(year: u16, day: u8) -> io::Result<String> {
+    println!("Reading file src/solutions/y{}/d{:02}/input.txt", year, day);
+    fs::read_to_string(format!("src/solutions/y{}/d{:02}/input.txt", year, day))
 }
 
-pub fn template_day(day: u8) -> Result<(), Box<dyn Error>>{
+pub fn template_day(year: u16, day: u8) -> Result<(), Box<dyn Error>>{
     let mut handlebars = Handlebars::new();
 
     handlebars.register_templates_directory(".hbs", "src/templates")?;
@@ -59,6 +55,6 @@ pub fn template_day(day: u8) -> Result<(), Box<dyn Error>>{
     data.insert("day", day);
 
     let content = handlebars.render("day.rs", &data)?;
-    fs::write(format!("src/solutions/d{:02}.rs", day), content)?;
+    fs::write(format!("src/solutions/y{}/d{:02}.rs", year, day), content)?;
     Ok(())
 }
