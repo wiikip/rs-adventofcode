@@ -8,7 +8,7 @@ use std::io::Read;
 use handlebars::Handlebars;
 
 
-mod solutions;
+pub mod solutions;
 mod utils;
 
 pub fn get_user_input(day: u8, session_id: String) -> Result<String, reqwest::Error> {

@@ -49,7 +49,7 @@ fn part_one(input: String) -> Result<i32, Box<dyn Error>> {
     let captures = re.find_iter(&input);
     for capture in captures {
         let token: Token = capture.as_str().parse::<Token>()?;
-
+        
         match token {
             Token::Do => (),
             Token::Dont => (),
