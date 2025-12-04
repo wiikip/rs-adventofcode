@@ -14,7 +14,7 @@ fn main() {
 #[derive(Parser)]
 struct Cli {
     #[arg(short = 'd', long = "day")]
-    day: u8,
+    day: u16,
     #[arg(short = 's')]
     session_id: String,
     #[arg(short = 'y', long = "year")]
