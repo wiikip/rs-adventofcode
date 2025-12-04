@@ -11,7 +11,7 @@ use handlebars::Handlebars;
 pub mod solutions;
 mod utils;
 
-pub fn get_user_input(year: u16, day: u8, session_id: String) -> Result<String, reqwest::Error> {
+pub fn get_user_input(year: u16, day: u16, session_id: String) -> Result<String, reqwest::Error> {
     let client = reqwest::blocking::Client::new();
 
     let resp = client.get(format!("https://adventofcode.com/{}/day/{}/input", year, day))
@@ -20,7 +20,7 @@ pub fn get_user_input(year: u16, day: u8, session_id: String) -> Result<String, 
     resp.text()
 }
 
-pub fn bootstrap_day(year: u16, day: u8, session_id: String) -> Result<(), Box<dyn Error>> {
+pub fn bootstrap_day(year: u16, day: u16, session_id: String) -> Result<(), Box<dyn Error>> {
     append_day_mod(year, day)?;
     let input_folder = format!("src/solutions/y{}/d{:02}", year, day);
     fs::create_dir(&input_folder)?;
@@ -30,7 +30,7 @@ pub fn bootstrap_day(year: u16, day: u8, session_id: String) -> Result<(), Box<d
     Ok(())
 }
 
-fn append_day_mod(year: u16, day: u8) -> io::Result<()> {
+fn append_day_mod(year: u16, day: u16) -> io::Result<()> {
     let file_content = fs::read_to_string(format!("src/solutions/y{}/mod.rs", year))?;
     let lines = file_content.split("\n");
     let mut lines_vec: Vec<&str> = lines.collect();
@@ -47,12 +47,13 @@ pub fn load_day_input(year: u16, day: u8) -> io::Result<String> {
     fs::read_to_string(format!("src/solutions/y{}/d{:02}/input.txt", year, day))
 }
 
-pub fn template_day(year: u16, day: u8) -> Result<(), Box<dyn Error>>{
+pub fn template_day(year: u16, day: u16) -> Result<(), Box<dyn Error>>{
     let mut handlebars = Handlebars::new();
 
     handlebars.register_templates_directory(".hbs", "src/templates")?;
     let mut data = HashMap::new();
     data.insert("day", day);
+    data.insert("year", year);
 
     let content = handlebars.render("day.rs", &data)?;
     fs::write(format!("src/solutions/y{}/d{:02}.rs", year, day), content)?;

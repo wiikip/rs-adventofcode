@@ -13,3 +13,4 @@ utils = {path = "./utils"}
 cached = "0.54.0"
 itertools = "0.13.0"
 num-integer = "0.1.46"
+thiserror = "2.0.17"
