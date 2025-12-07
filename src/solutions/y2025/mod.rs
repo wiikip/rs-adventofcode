@@ -1,7 +1,8 @@
-pub mod utils;
 
 mod d01;
 mod d02;
 mod d03;
 mod d04;
 mod d05;
+mod d06;
+pub mod utils;
